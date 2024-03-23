@@ -1,3 +1,6 @@
+import matplotlib.pyplot as plt
+import seaborn as sns
+
 class SocialMediaPlatform:
     def __init__(self, name, users):
         self.name = name
@@ -17,6 +20,36 @@ class SocialMediaPlatform:
             return self.users[username]['data']
         else:
             return None
+
+    def generate_analytics(self, username):
+        # Generate analytics based on user data (dummy data for demonstration)
+        user_data = self.get_user_data(username)
+        if user_data:
+            age = user_data['age']
+            followers = [age * 10, age * 15, age * 20, age * 25]  # Sample follower count over time
+            engagement_rate = [0.5, 0.6, 0.7, 0.8]  # Sample engagement rate over time
+
+            # Visualize data
+            self.plot_metrics_over_time(followers, engagement_rate)
+
+    def plot_metrics_over_time(self, followers, engagement_rate):
+        # Plot metrics over time
+        plt.figure(figsize=(10, 6))
+        plt.subplot(2, 1, 1)
+        plt.plot(range(1, 5), followers, marker='o', linestyle='-')
+        plt.title(f"{self.name} - Followers Over Time")
+        plt.xlabel("Time")
+        plt.ylabel("Followers")
+
+        plt.subplot(2, 1, 2)
+        plt.plot(range(1, 5), engagement_rate, marker='o', linestyle='-')
+        plt.title(f"{self.name} - Engagement Rate Over Time")
+        plt.xlabel("Time")
+        plt.ylabel("Engagement Rate")
+
+        plt.tight_layout()
+        plt.show()
+
 
 # Static demo data for users
 facebook_users = {
@@ -77,6 +110,8 @@ def main():
         user_data = platform.get_user_data(username)
         if user_data:
             print("User data:", user_data)
+            # Generate and display analytics
+            platform.generate_analytics(username)
         else:
             print("User data not found")
 
