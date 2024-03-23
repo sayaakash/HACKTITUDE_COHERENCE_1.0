@@ -1,5 +1,6 @@
-import matplotlib.pyplot as plt
-import seaborn as sns
+import numpy as np
+from sklearn.linear_model import LinearRegression
+import matplotlib.pyplot as plt  # Add this import statement for plt
 
 class SocialMediaPlatform:
     def __init__(self, name, users):
@@ -32,6 +33,9 @@ class SocialMediaPlatform:
             # Visualize data
             self.plot_metrics_over_time(followers, engagement_rate)
 
+            # Generate future predictions
+            self.predict_future_metrics(followers, engagement_rate)
+
     def plot_metrics_over_time(self, followers, engagement_rate):
         # Plot metrics over time
         plt.figure(figsize=(10, 6))
@@ -44,6 +48,45 @@ class SocialMediaPlatform:
         plt.subplot(2, 1, 2)
         plt.plot(range(1, 5), engagement_rate, marker='o', linestyle='-')
         plt.title(f"{self.name} - Engagement Rate Over Time")
+        plt.xlabel("Time")
+        plt.ylabel("Engagement Rate")
+
+        plt.tight_layout()
+        plt.show()
+
+    def predict_future_metrics(self, followers, engagement_rate):
+        # Predict future metrics using linear regression
+        X = np.array(range(1, 5)).reshape(-1, 1)  # Time
+        y_followers = np.array(followers)
+        y_engagement_rate = np.array(engagement_rate)
+
+        # Fit linear regression models
+        follower_model = LinearRegression()
+        follower_model.fit(X, y_followers)
+
+        engagement_model = LinearRegression()
+        engagement_model.fit(X, y_engagement_rate)
+
+        # Predict future values
+        future_time = np.array([5, 6, 7, 8]).reshape(-1, 1)  # Future time points
+        future_followers = follower_model.predict(future_time)
+        future_engagement_rate = engagement_model.predict(future_time)
+
+        # Visualize future predictions
+        self.plot_future_predictions(future_time, future_followers, future_engagement_rate)
+
+    def plot_future_predictions(self, future_time, future_followers, future_engagement_rate):
+        # Plot future predictions
+        plt.figure(figsize=(10, 6))
+        plt.subplot(2, 1, 1)
+        plt.plot(future_time, future_followers, marker='o', linestyle='--')
+        plt.title(f"{self.name} - Predicted Followers Over Time")
+        plt.xlabel("Time")
+        plt.ylabel("Followers")
+
+        plt.subplot(2, 1, 2)
+        plt.plot(future_time, future_engagement_rate, marker='o', linestyle='--')
+        plt.title(f"{self.name} - Predicted Engagement Rate Over Time")
         plt.xlabel("Time")
         plt.ylabel("Engagement Rate")
 
